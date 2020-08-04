@@ -1,0 +1,17 @@
+
+onlineShop/src/main/java/onlineShop/ApplicationConfig.java
+onlineShop/src/main/java/onlineShop/Application.java
+onlineShop/src/main/webapp/WEB-INF/.DS_Store
+onlineShop/src/main/webapp/WEB-INF/flow/.DS_Store
+*.xml
+onlineShop/target/maven-archiver/pom.properties
+*.lst
+*.war
+*.container
+*.component
+*.prefs
+*.name
+onlineShop/.settings/.jsdtscope
+*.MF
+*.properties
+*.jar
