@@ -21,11 +21,11 @@
     <div class="footer-left">
         <p class="footer-links">
             <a href="<c:url value="/index"/>">Home</a> ·
-            <a href="<c:url value="/aboutus"/>">About Us</a> ·
+            <a href="<c:url value="https://github.com/liulian1004"/>">About Me</a> ·
             <a href="<c:url value="/getAllProducts" />">Products</a>
         </p>
 
-        <p>Created by LaiOffer &copy; 2019</p>
+        <p>Created by Lian Lian V1.0</p>
     </div>
 
 </footer>

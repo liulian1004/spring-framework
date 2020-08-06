@@ -26,7 +26,7 @@
             <ul class="nav navbar-nav navbar-left">
                 <li><a href=" <c:url value="/index" />">Home</a></li>
                 <li><a href=" <c:url value="/getAllProducts" />">Products</a></li>
-                <li><a href=" <c:url value="/aboutus" />">About Us</a></li>
+                <li><a href=" <c:url value="https://github.com/liulian1004" />">About Me</a></li>
 
                 <!-- Only admin can view this link -->
                 <security:authorize access="hasRole('ROLE_ADMIN')">

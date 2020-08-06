@@ -15,3 +15,5 @@ onlineShop/.settings/.jsdtscope
 *.MF
 *.properties
 *.jar
+onlineShop/src/main/java/onlineShop/SecurityConfig.java
+onlineShop/target/onlineShop/WEB-INF/classes/onlineShop/SecurityConfig.class

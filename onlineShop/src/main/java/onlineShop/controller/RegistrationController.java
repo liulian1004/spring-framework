@@ -18,11 +18,11 @@ public class RegistrationController {
 	@RequestMapping(value = "/customer/registration", method = RequestMethod.GET)
 	public ModelAndView getRegistrationForm() {
 		Customer customer = new Customer();
-		return new ModelAndView("register","customer", customer);
+		return new ModelAndView("register","customer", customer);// view name， model name , object 
 	}
 	
 	@RequestMapping(value = "/customer/registration", method = RequestMethod.POST)
-	public ModelAndView registerCustomer(@ModelAttribute(value= "customer")Customer customer, BindingResult result) {
+	public ModelAndView registerCustomer(@ModelAttribute(value= "customer")Customer customer, BindingResult result) {//绑定result
 		ModelAndView modelAndView = new ModelAndView();
 		if(result.hasErrors()) {
 			modelAndView.setViewName("register");
