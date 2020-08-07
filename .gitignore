@@ -17,3 +17,6 @@ onlineShop/.settings/.jsdtscope
 *.jar
 onlineShop/src/main/java/onlineShop/SecurityConfig.java
 onlineShop/target/onlineShop/WEB-INF/classes/onlineShop/SecurityConfig.class
+onlineShop/target/onlineShop/WEB-INF/classes/onlineShop/ApplicationConfig.class
+onlineShop/target/onlineShop/WEB-INF/classes/onlineShop/ApplicationConfig.class
+products_image/iphone.jpg

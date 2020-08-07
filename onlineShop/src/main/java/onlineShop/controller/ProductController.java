@@ -20,50 +20,51 @@ import org.springframework.web.servlet.ModelAndView;
 import onlineShop.model.Product;
 import onlineShop.service.ProductService;
 
+//control： 后端如何响应前端来的请求
 @Controller
-public class ProductController {
+public class ProductController { 
 	
 	@Autowired
 	private ProductService productService;
 	
-	@RequestMapping(value = "/getAllProducts", method = RequestMethod.GET)
+	@RequestMapping(value = "/getAllProducts", method = RequestMethod.GET) // 对应按前端“product”按钮
 	public ModelAndView getAllProducts() {
 		List<Product> list =productService.getAllProducts();
-		return new ModelAndView("productList","products", list);
+		return new ModelAndView("productList","products", list);//“” 对应前端页面的tag名
 	}
 	
-	@RequestMapping(value = "/getProductById/{productId}", method = RequestMethod.GET)
-	public ModelAndView getProductById(@PathVariable(value="productId") int productId) {
+	@RequestMapping(value = "/getProductById/{productId}", method = RequestMethod.GET) //{传入的内容}
+	public ModelAndView getProductById(@PathVariable(value="productId") int productId) { //传入的内容需要写在PathVariable里
 		Product product = productService.getProductById(productId);
 		return new ModelAndView("productPage","product", product);
 	}
 	
-	@RequestMapping(value = "/admin/product/addProduct", method = RequestMethod.GET)
+	@RequestMapping(value = "/admin/product/addProduct", method = RequestMethod.GET) //读请求：返回添加商品的form
 	public ModelAndView getProductForm() {
 		return new ModelAndView("addProduct","productForm", new Product());
 	}
 	
-	@RequestMapping(value = "/admin/product/addProduct", method = RequestMethod.POST)
-	public String addProduct(@ModelAttribute(value="productForm") Product product, BindingResult result) {
+	@RequestMapping(value = "/admin/product/addProduct", method = RequestMethod.POST)//写请求： 读取form
+	public String addProduct(@ModelAttribute(value="productForm") Product product, BindingResult result) {//bindingResult： 检查下前端输入的类型是否是后端可以接受的
 		if(result.hasErrors()) {
 			return "addProduct";
 		}
 		productService.addProduct(product);
 		MultipartFile image = product.getProductImage(); // 读取product table里面的image数据
 		if(image != null && !image.isEmpty()) {
-			Path path = Paths.get("/Users/liulian/Documents/code/project_2/shopping/products_image/" + product.getId() + ".jpg");//存放image的folder？
+			//存放image的folder
+			//上传的图片可以是任意格式
+			//最后存储的格式是jpg
+			Path path = Paths.get("/Users/liulian/Documents/code/project_2/shopping/products_image/" + product.getId() + ".jpg");
 			
 			try {
 				image.transferTo(new File(path.toString()));
-			} catch (IllegalStateException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} catch (IOException e) {
+			} catch (Exception e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
-		return "redirect:/getAllProducts";
+		return "redirect:/getAllProducts"; //返回到product list page
 
 	}
 	
@@ -80,7 +81,7 @@ public class ProductController {
 				}
 		}
 			productService.deleteProduct(productId);
-		return "redirect:/getAllProducts";
+			return "redirect:/getAllProducts";
 
 	}
 	//getEditForm作用，和add product有什么区别
@@ -97,7 +98,7 @@ public class ProductController {
 
 	@RequestMapping(value = "/admin/product/editProduct/{productId}", method = RequestMethod.POST)//写
 	public String editProduct(@ModelAttribute(value = "editProductObj") Product product,
-			@PathVariable(value = "productId") int productId) {
+			@PathVariable(value = "productId") int productId) { //传入product 和productId两个参数
 		product.setId(productId);
 		productService.updateProduct(product);
 		return "redirect:/getAllProducts";

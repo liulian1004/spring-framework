@@ -29,7 +29,7 @@ public class CustomerDao {
 		Cart cart = new Cart();
 		cart.setCustomer(customer);
 		customer.setCart(cart);
-		//以上信息需要收到添加，其他信息都是从form（全端传过来）
+		//以上信息需要收到添加，其他信息都是从form（前端传过来）
 		Session session = null;
 		
 		try {
@@ -48,32 +48,26 @@ public class CustomerDao {
 			
 		}
 	}
-		
-		public Customer getCustomerByUserName(String userName) {
-			User user = null;
-			
-			try (Session session = sessionFactory.openSession()){
-				session.beginTransaction();
-				//== select语句： 通过userName找到对应的custmoer信息
-				CriteriaBuilder builder = session.getCriteriaBuilder();
-				CriteriaQuery<User> criteraQuery = builder.createQuery(User.class);
-				Root<User> root = criteraQuery.from(User.class);
-				criteraQuery.select(root).where(builder.equal(root.get("emailId"), userName));
-				user = session.createQuery(criteraQuery).getSingleResult();
-				session.getTransaction().commit();
-				
-			} catch (Exception e) {
-				e.printStackTrace();
-			} 
-			
-			if(user != null) {
-				return user.getCustomer();
-			}
-			return null;
-		
-			
+	
+	public Customer getCustomerByUserName(String userName) {
+		User user = null;
+		try (Session session = sessionFactory.openSession()) {
+                    session.beginTransaction();
+            //== select语句： 通过userName找到对应的custmoer信息
+			CriteriaBuilder builder = session.getCriteriaBuilder();
+			CriteriaQuery<User> criteriaQuery = builder.createQuery(User.class);
+			Root<User> root = criteriaQuery.from(User.class);
+			criteriaQuery.select(root).where(builder.equal(root.get("emailId"), userName));
+			user = session.createQuery(criteriaQuery).getSingleResult();
+            session.getTransaction().commit();
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
-		
+		if (user != null)
+			return user.getCustomer();
+		return null;
+	}
+}
+
 	
 
-}

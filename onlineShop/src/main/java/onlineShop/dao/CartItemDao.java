@@ -1,0 +1,72 @@
+package onlineShop.dao;
+
+import java.util.List;
+
+import org.hibernate.HibernateException;
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
+
+import onlineShop.model.Cart;
+import onlineShop.model.CartItem;
+
+@Repository
+public class CartItemDao {
+	
+	@Autowired
+	private SessionFactory sessionFactory;
+	
+	public void addCartItem(CartItem cartItem) {
+		Session session = null;
+		
+		try {
+			session = sessionFactory.openSession();
+			session.beginTransaction();
+			session.saveOrUpdate(cartItem);
+			session.getTransaction().commit();
+			
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			session.getTransaction().rollback();
+		}finally {
+			if(session != null) {
+				session.close();
+			}
+			
+		}
+	}
+	
+	public void removeCartItem(int cartItemId) {
+		Session session = null;
+		
+		try {
+			session = sessionFactory.openSession();
+			CartItem cartItem = session.get(CartItem.class, cartItemId);
+			Cart cart = cartItem.getCart();
+			List<CartItem> cartItems = cart.getCartItem();
+			cartItems.remove(cartItem); //必须先要删除carItem里面的数据，然后再删除session里面的，否则会出现roll back 情况
+			session.beginTransaction();
+			session.delete(cartItem);
+			session.getTransaction().commit();
+		} catch (Exception e) {
+
+			e.printStackTrace();
+			session.getTransaction().rollback();
+		}finally {
+			if(session != null) {
+				session.close();
+			}
+			
+		}
+
+	}
+	
+	public void removeAllCartItem(Cart cart) {
+		List<CartItem> cartItems = cart.getCartItem();
+		for(CartItem cartItem: cartItems) {
+			removeCartItem(cartItem.getId());
+		}
+	}
+}

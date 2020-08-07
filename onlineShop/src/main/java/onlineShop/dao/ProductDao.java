@@ -14,9 +14,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import onlineShop.model.Product;
-//dao： 和database交互的逻辑，算是model的一部分
+//dao： 和database交互的逻辑，算是model的一部分，一般后端的第一步都是从这里开始写
 
-@Repository
+@Repository // 被其他class引用
 public class ProductDao {
 	
 	@Autowired
@@ -29,7 +29,7 @@ public class ProductDao {
 			session = sessionFactory.openSession();
 			session.beginTransaction();
 			session.save(product);
-			session.getTransaction().commit();
+			session.getTransaction().commit(); //insert data into database
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -48,9 +48,8 @@ public class ProductDao {
 			session.beginTransaction();
 			Product product =(Product)session.get(Product.class, productId);
 			session.delete(product);
-			session.getTransaction().commit();
+			session.getTransaction().commit(); // 对数据库进行操作
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 			session.getTransaction().rollback();
 		}finally {
@@ -81,12 +80,10 @@ public class ProductDao {
 		Session session = null;
 		try {
 			session = sessionFactory.openSession();
-			session.beginTransaction();
+			//session.beginTransaction(); 如果是读数据，才需要beginTransaction
 			Product product = (Product)session.get(Product.class, productId);
-			session.getTransaction().commit();
 			return product;
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 			session.getTransaction().rollback();
 		}finally {
@@ -97,20 +94,19 @@ public class ProductDao {
 		return null;
 	}
 	
-	public List<Product>   getAllProducts() {
+	public List<Product>  getAllProducts() {
 		List<Product> list = new ArrayList<>();
 		Session session = null;
 		try {
 			session = sessionFactory.openSession();
-			session.beginTransaction();
+			//session.beginTransaction();
 			CriteriaBuilder criteriaBuilder = session.getCriteriaBuilder();
 			CriteriaQuery<Product> criteriaQuery = criteriaBuilder.createQuery(Product.class);
 			Root<Product> root = criteriaQuery.from(Product.class);
 			criteriaQuery.select(root);
 			list = session.createQuery(criteriaQuery).getResultList();
-			session.getTransaction().commit();
+			//session.getTransaction().commit(); 只有对数据库crud才需要这一句话
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 			session.getTransaction().rollback();
 		}finally {
