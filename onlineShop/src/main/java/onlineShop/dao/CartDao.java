@@ -31,4 +31,41 @@ public class CartDao {
 		}
 		return cart;
 	}
+	
+	public Cart Validate(int cartId) throws IOException{
+		Cart cart = getCartById(cartId);
+		if(cart == null || cart.getCartItem().size() == 0) {
+			throw new IOException(cartId + "");
+		}
+		update(cart);
+		return cart;
+	}
+	
+	private void update(Cart cart) {
+		double total = getSalesOrderTotal(cart);
+		cart.setTotalPrice(total);
+		
+		try(Session session = sessionFactory.openSession()) {
+			session.beginTransaction();
+			session.saveOrUpdate(cart);
+			session.getTransaction().commit(); // 为什么这里不关闭session里？
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+		} 
+			//finally {
+//
+//		}
+		
+		
+	}
+	
+	private double getSalesOrderTotal(Cart cart) {
+		double sum = 0;
+		List<CartItem> cartItems = cart.getCartItem();
+		for(CartItem cartItem: cartItems) {
+			sum += cartItem.getPrice();
+		}
+		return sum;
+	}
 }
