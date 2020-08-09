@@ -8,12 +8,11 @@ import onlineShop.model.SalesOrder;
 
 @Service
 public class SalesOrderService {
-	
-	@Autowired
-	private SalesOrderDao salesOrderDao;
-	
-	public void addSalesOrder(SalesOrder salesOrder) {
-		salesOrderDao.addSalesOrder(salesOrder);
-	}
 
+    @Autowired
+    private SalesOrderDao salesOrderDao;
+    
+    public void addSalesOrder(SalesOrder salesOrder) {
+   	 salesOrderDao.addSalesOrder(salesOrder);
+    }
 }

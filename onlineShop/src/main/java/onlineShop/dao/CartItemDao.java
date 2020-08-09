@@ -2,7 +2,6 @@ package onlineShop.dao;
 
 import java.util.List;
 
-import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -63,7 +62,7 @@ public class CartItemDao {
 
 	}
 	
-	public void removeAllCartItem(Cart cart) {
+	public void removeAllCartItems(Cart cart) {
 		List<CartItem> cartItems = cart.getCartItem();
 		for(CartItem cartItem: cartItems) {
 			removeCartItem(cartItem.getId());

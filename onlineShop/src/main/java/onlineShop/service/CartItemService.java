@@ -22,7 +22,7 @@ public class CartItemService {
 	}
 	
 	public void removeAllCartItems(Cart cart) {
-		cartItemdao.removeAllCartItem(cart);
+		cartItemdao.removeAllCartItems(cart);
 	}
 
 }
